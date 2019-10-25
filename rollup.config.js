@@ -1,7 +1,8 @@
 import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import commonjs from 'rollup-plugin-commonjs';
-import svelte from 'rollup-plugin-svelte';
+import svelte from 'rollup-plugin-svelte-hot';
+import hmr from 'rollup-plugin-hot'
 import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
@@ -10,6 +11,7 @@ import pkg from './package.json';
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+const hot = dev
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 const dedupe = importee => importee === 'svelte' || importee.startsWith('svelte/');
@@ -26,7 +28,19 @@ export default {
 			svelte({
 				dev,
 				hydratable: true,
-				emitCss: true
+				...(!hot && {
+					css: css => {
+						css.write('public/bundle.css')
+					},
+				}),
+				hot: hot && {
+					// sapper-dev-client expects either webpack or rollup with no HMR, so
+					// we need to prevent it from doing full reloads with rollup
+					patchSapperDevClient: true,
+					// optimistic will try to recover from runtime errors during
+					// component init (instead of doing a full reload)
+					optimistic: true,
+				},
 			}),
 			resolve({
 				browser: true,
@@ -34,7 +48,8 @@ export default {
 			}),
 			commonjs(),
 
-			legacy && babel({
+			// NOTE this does not work with hot plugin currently
+			legacy && !hot && babel({
 				extensions: ['.js', '.mjs', '.html', '.svelte'],
 				runtimeHelpers: true,
 				exclude: ['node_modules/@babel/**'],
@@ -53,7 +68,12 @@ export default {
 
 			!dev && terser({
 				module: true
-			})
+			}),
+
+			hot && hmr({
+				public: '__sapper__/dev',
+				inMemory: true,
+			}),
 		],
 
 		onwarn,
