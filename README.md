@@ -1,11 +1,11 @@
 # sapper-template-hot
 
-A clone of the default [Sapper](https://github.com/sveltejs/sapper) template, with added support for HMR. Available for Rollup and webpack.
+A clone of the default [Sapper](https://github.com/sveltejs/sapper) template, with added support for HMR. Only available for Webpack currently. (Rollup support for Sapper is pretty hard, and not very high on my priority list.)
 
 
 ## Status
 
-Svelte HMR support is still quite experimental. Not ready for production. (But you won't ship your HMR, right?)
+Svelte HMR is still quite experimental. Not ready for production. (But you won't ship your HMR, right?)
 
 
 ## From scratch
@@ -16,8 +16,6 @@ Svelte HMR support is still quite experimental. Not ready for production. (But y
 [`degit`](https://github.com/Rich-Harris/degit) is a scaffolding tool that lets you create a directory from a branch in a repository. Use either the `rollup` or `webpack` branch in `sapper-template`:
 
 ```bash
-# for Rollup
-npx degit "rixo/sapper-template-hot#rollup" my-app
 # for webpack
 npx degit "rixo/sapper-template-hot#webpack" my-app
 ```
@@ -40,7 +38,7 @@ Consult [sapper.svelte.dev](https://sapper.svelte.dev) for help getting started.
 This project intends to stick to the [official template](https://github.com/sveltejs/sapper-template) as much as possible, so refer to its docs for all details about the template itself.
 
 
-## Add it to your project
+## Add HMR to your existing Sapper project
 
 ~~~bash
 # replace svelte-loader with fork with HMR support
@@ -62,7 +60,7 @@ module.exports = {
           use: {
             loader: 'svelte-loader',
             options: {
-              dev, // NOTE dev mode is REQUIRED for HMR
+              dev, // NOTE dev mode is required for HMR
               hydratable: true,
               hotReload: hot,
               hotOptions: {
