@@ -20,7 +20,7 @@ module.exports = {
 				{
 					test: /\.(svelte|html)$/,
 					use: {
-						loader: 'svelte-loader',
+						loader: 'svelte-loader-hot',
 						options: {
 							dev,
 							hydratable: true,
