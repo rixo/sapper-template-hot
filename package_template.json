@@ -44,7 +44,7 @@
     },
     "webpack": {
       "devDependencies": {
-        "svelte-loader": "^2.9.0",
+        "svelte-loader-hot": "^0.1.0",
         "webpack": "^4.7.0"
       }
     }
