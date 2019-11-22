@@ -26,7 +26,7 @@ module.exports = {
 						options: {
 							dev, // NOTE dev mode is REQUIRED for HMR
 							hydratable: true,
-              hotReload: hot, // pending https://github.com/sveltejs/svelte/issues/3632
+              hotReload: hot,
 							hotOptions: {
 								// optimistic will try to recover from runtime errors during
 								// component init (instead of doing a full reload)
@@ -60,7 +60,9 @@ module.exports = {
 				{
 					test: /\.(svelte|html)$/,
 					use: {
-						loader: 'svelte-loader',
+						// you don't need svelte-loader-hot here, but it avoids having to
+						// also install svelte-loader
+						loader: 'svelte-loader-hot',
 						options: {
 							css: false,
 							generate: 'ssr',
