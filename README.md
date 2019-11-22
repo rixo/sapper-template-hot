@@ -58,7 +58,8 @@ module.exports = {
         {
           test: /\.(svelte|html)$/,
           use: {
-            loader: 'svelte-loader',
+            // change svelte-loader to svelte-loader-hot
+            loader: 'svelte-loader-hot',
             options: {
               dev, // NOTE dev mode is required for HMR
               hydratable: true,
