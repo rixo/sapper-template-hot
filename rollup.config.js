@@ -13,7 +13,10 @@ const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 const hot = dev
 
-const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
+const onwarn = (warning, onwarn) =>
+	(warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message))
+	|| (hot && warning.code === 'MIXED_EXPORTS' && /\.svelte$/.test(warning.id))
+	|| onwarn(warning);
 
 export default {
 	client: {
