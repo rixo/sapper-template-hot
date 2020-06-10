@@ -71,11 +71,6 @@ export default {
 			!dev && terser({
 				module: true
 			}),
-
-			hot && hmr({
-				public: '__sapper__/dev',
-				inMemory: true,
-			}),
 		],
 
 		onwarn,
