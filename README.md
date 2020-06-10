@@ -11,3 +11,7 @@ cd my-app
 yarn
 yarn dev
 ```
+
+Open http://localhost:3333
+
+**ATTENTION** Sapper's normal server is listening on port 3000, because Nollup's dev server is configured to proxy non-bundle requests to Sapper's backend. but you need to access your app at http://localhost:3333 with the current config.
